@@ -1,0 +1,17 @@
+venv/ 
+ChatApi/venv/ 
+.env 
+__pycache__/ 
+**/bin/ 
+**/obj/ 
+*.dll 
+*.exe 
+*.pdb 
+*.cache 
+.vs/ 
+ChatApi/bin/ 
+ChatApi/obj/ 
+chat-frontend/node_modules/ 
+chat-frontend/.angular/ 
+chat-frontend/dist/ 
+*.log 

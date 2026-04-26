@@ -1,0 +1,76 @@
+<div class="chat-container">
+  <!-- Messages -->
+  <div class="chat-messages" #scrollMe>
+    <div *ngFor="let message of messages; let i = index" [ngClass]="message.fromUser ? 'user' : 'bot'">
+      <mat-card class="chat-bubble">
+        <mat-card-content>
+          {{ message.text }}
+        </mat-card-content>
+        <div class="timestamp">{{ message.timestamp }}</div>
+      </mat-card>
+
+      <!-- Feedback buttons -->
+      <div *ngIf="!message.fromUser" class="feedback-buttons">
+        <button mat-icon-button (click)="handleFeedback(i, 'up')" aria-label="Thumbs up">
+          <mat-icon>thumb_up</mat-icon>
+        </button>
+        <button mat-icon-button (click)="handleFeedback(i, 'down')" aria-label="Thumbs down">
+          <mat-icon>thumb_down</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Typing indicator -->
+    <div *ngIf="isTyping" class="message-row bot">
+      <mat-card class="chat-bubble typing">
+        <mat-card-content class="typing-content">
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Prompt Mode Selector -->
+  <div class="mode-selector">
+    <mat-form-field appearance="fill" class="mode-dropdown">
+      <mat-label>Prompt Mode</mat-label>
+      <mat-select [(value)]="selectedMode">
+        <mat-option value="assistant">Assistant</mat-option>
+        <mat-option value="faq">FAQ</mat-option>
+        <mat-option value="troubleshooting">Troubleshooting</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Input Area -->
+  <div class="chat-input-wrapper">
+    <!-- Emoji picker (ngx-emoji-mart) -->
+    <div class="emoji-popover" *ngIf="showEmojiPicker">
+      <emoji-mart (emojiSelect)="addEmoji($event.emoji.native)"></emoji-mart>
+    </div>
+
+    <div class="chat-input">
+      <mat-form-field appearance="outline" class="input-field">
+        <input
+          matInput
+          placeholder="Write a message"
+          [(ngModel)]="userMessage"
+          (keydown.enter)="sendMessage()" />
+      </mat-form-field>
+
+      <!-- Emoji picker toggle button -->
+      <button mat-icon-button aria-label="Emoji picker" class="emoji-button" (click)="showEmojiPicker = !showEmojiPicker">
+        <mat-icon>emoji_emotions</mat-icon>
+      </button>
+
+      <!-- File upload placeholder -->
+      <button mat-icon-button aria-label="Attach file" (click)="attachFile()">
+        <mat-icon>attach_file</mat-icon>
+      </button>
+
+      <button mat-raised-button color="primary" (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>
